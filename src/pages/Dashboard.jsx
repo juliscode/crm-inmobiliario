@@ -13,6 +13,7 @@ export function Dashboard({
   getFilteredLeads,
   onCreateLead,
   onChangeLeadStatus,
+  onOpenLead,
   onResetLeads,
 }) {
   const isAdmin = activeProfile.rol === 'admin'
@@ -127,6 +128,7 @@ export function Dashboard({
         activeProfile={activeProfile}
         leads={filteredLeads}
         onChangeLeadStatus={onChangeLeadStatus}
+        onOpenLead={onOpenLead}
       />
 
       {isModalOpen ? (

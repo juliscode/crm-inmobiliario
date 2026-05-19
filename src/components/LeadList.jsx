@@ -2,7 +2,12 @@ import { leadStatuses, profiles } from '../data/mockData.js'
 
 const agentNames = new Map(profiles.map((profile) => [profile.id, profile.nombre]))
 
-export function LeadList({ leads, activeProfile, onChangeLeadStatus }) {
+export function LeadList({
+  leads,
+  activeProfile,
+  onChangeLeadStatus,
+  onOpenLead,
+}) {
   const isAdmin = activeProfile.rol === 'admin'
 
   return (
@@ -76,6 +81,16 @@ export function LeadList({ leads, activeProfile, onChangeLeadStatus }) {
                 <time dateTime={lead.fecha_proximo_contacto}>
                   {lead.fecha_proximo_contacto}
                 </time>
+              </div>
+
+              <div className="lead-row-actions">
+                <button
+                  className="ghost-button"
+                  type="button"
+                  onClick={() => onOpenLead(lead.id)}
+                >
+                  Abrir ficha
+                </button>
               </div>
             </article>
           ))}

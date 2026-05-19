@@ -4,6 +4,7 @@ import { initialLeads } from '../data/mockData.js'
 import {
   createLead,
   filterLeads,
+  updateLead,
   updateLeadStatus,
 } from '../services/leadManagement.js'
 import { getVisibleLeads } from '../services/leadVisibility.js'
@@ -37,6 +38,10 @@ export function useLeads(activeProfile) {
     persistLeads(updateLeadStatus(leads, leadId, status, activeProfile))
   }
 
+  function saveLead(leadId, formData) {
+    persistLeads(updateLead(leads, leadId, formData, activeProfile))
+  }
+
   function resetLeads() {
     persistLeads(initialLeads)
   }
@@ -46,6 +51,7 @@ export function useLeads(activeProfile) {
     visibleLeads,
     getFilteredLeads,
     addLead,
+    saveLead,
     changeLeadStatus,
     resetLeads,
   }

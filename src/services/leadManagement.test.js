@@ -4,6 +4,7 @@ import assert from 'node:assert/strict'
 import {
   createLead,
   filterLeads,
+  updateLead,
   updateLeadStatus,
 } from './leadManagement.js'
 
@@ -90,4 +91,58 @@ test('agent cannot update another agent lead status', () => {
   )
 
   assert.equal(result.find((lead) => lead.id === 'lead-2').estado, 'Contactado')
+})
+
+test('admin can update any lead details', () => {
+  const result = updateLead(
+    leads,
+    'lead-2',
+    {
+      nombre: 'Carlos Actualizado',
+      telefono: '+54 381 555-0000',
+      email: 'nuevo@example.com',
+      operacion: 'compra',
+      zona_interes: 'Yerba Buena',
+      presupuesto: 'USD 90.000',
+      estado: 'Interesado',
+      prioridad: 'Alta',
+      agente_id: 'agent-1',
+      propiedad_interes: 'Casa nueva',
+      proxima_accion: 'Coordinar llamada',
+      fecha_proximo_contacto: '2026-05-25',
+    },
+    admin,
+    '2026-05-19T12:00:00.000Z',
+  )
+
+  const updatedLead = result.find((lead) => lead.id === 'lead-2')
+
+  assert.equal(updatedLead.nombre, 'Carlos Actualizado')
+  assert.equal(updatedLead.agente_id, 'agent-1')
+  assert.equal(updatedLead.updated_at, '2026-05-19T12:00:00.000Z')
+})
+
+test('agent cannot update another agent lead details', () => {
+  const result = updateLead(
+    leads,
+    'lead-2',
+    {
+      nombre: 'Carlos Actualizado',
+      telefono: '+54 381 555-0000',
+      email: 'nuevo@example.com',
+      operacion: 'compra',
+      zona_interes: 'Yerba Buena',
+      presupuesto: 'USD 90.000',
+      estado: 'Interesado',
+      prioridad: 'Alta',
+      agente_id: 'agent-1',
+      propiedad_interes: 'Casa nueva',
+      proxima_accion: 'Coordinar llamada',
+      fecha_proximo_contacto: '2026-05-25',
+    },
+    agentOne,
+    '2026-05-19T12:00:00.000Z',
+  )
+
+  assert.equal(result.find((lead) => lead.id === 'lead-2').nombre, 'Carlos Ruiz')
 })

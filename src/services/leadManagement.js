@@ -69,3 +69,37 @@ export function updateLeadStatus(
     }
   })
 }
+
+export function updateLead(
+  leads,
+  leadId,
+  formData,
+  activeProfile,
+  now = new Date().toISOString(),
+) {
+  return leads.map((lead) => {
+    if (lead.id !== leadId || !canEditLead(lead, activeProfile)) {
+      return lead
+    }
+
+    const agentId =
+      activeProfile.rol === 'admin' ? formData.agente_id : activeProfile.id
+
+    return {
+      ...lead,
+      nombre: formData.nombre.trim(),
+      telefono: formData.telefono.trim(),
+      email: formData.email.trim(),
+      operacion: formData.operacion,
+      zona_interes: formData.zona_interes.trim(),
+      presupuesto: formData.presupuesto.trim(),
+      estado: formData.estado,
+      prioridad: formData.prioridad,
+      agente_id: agentId,
+      propiedad_interes: formData.propiedad_interes.trim(),
+      proxima_accion: formData.proxima_accion.trim(),
+      fecha_proximo_contacto: formData.fecha_proximo_contacto,
+      updated_at: now,
+    }
+  })
+}

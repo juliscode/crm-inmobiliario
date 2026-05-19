@@ -492,6 +492,11 @@ select:disabled {
   white-space: nowrap;
 }
 
+.lead-row-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .empty-state {
   color: var(--muted);
   padding: 34px 18px;
@@ -550,14 +555,100 @@ select:disabled {
   margin-top: 8px;
 }
 
+.lead-detail {
+  display: grid;
+  gap: 18px;
+}
+
+.back-button {
+  justify-self: start;
+}
+
+.detail-hero,
+.detail-grid,
+.edit-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.detail-hero {
+  align-items: flex-start;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  padding: 28px;
+}
+
+.detail-hero h2 {
+  font-size: 2.7rem;
+  line-height: 1;
+}
+
+.detail-hero p:not(.section-label) {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 12px;
+  max-width: 680px;
+}
+
+.detail-grid {
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+}
+
+.detail-grid div {
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  padding: 16px;
+}
+
+.detail-grid dt {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.detail-grid dd {
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.edit-panel {
+  overflow: hidden;
+}
+
+.edit-panel .lead-form {
+  padding: 18px;
+}
+
+.save-message {
+  background: var(--accent-soft);
+  border-radius: 999px;
+  color: var(--accent-strong);
+  font-size: 0.86rem;
+  font-weight: 900;
+  padding: 8px 12px;
+}
+
 @media (max-width: 760px) {
   .profile-card,
-  .dashboard-hero {
+  .dashboard-hero,
+  .detail-hero {
     padding: 22px;
   }
 
   .profile-options,
   .dashboard-hero,
+  .detail-grid,
   .summary-grid,
   .filters-panel,
   .lead-meta,
@@ -575,6 +666,7 @@ select:disabled {
   .toolbar-actions,
   .panel-header,
   .modal-header,
+  .detail-hero,
   .lead-next-action,
   .modal-actions {
     align-items: stretch;
@@ -593,5 +685,17 @@ select:disabled {
 
   .lead-next-action time {
     white-space: normal;
+  }
+
+  .detail-hero h2 {
+    font-size: 2.1rem;
+  }
+
+  .lead-row-actions {
+    justify-content: stretch;
+  }
+
+  .lead-row-actions button {
+    width: 100%;
   }
 }
