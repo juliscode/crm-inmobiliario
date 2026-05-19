@@ -3,6 +3,8 @@ const STORAGE_PREFIX = 'crm-inmobiliario-v1'
 export const storageKeys = {
   activeProfileId: `${STORAGE_PREFIX}:active-profile-id`,
   leads: `${STORAGE_PREFIX}:leads`,
+  leadNotes: `${STORAGE_PREFIX}:lead-notes`,
+  leadVisits: `${STORAGE_PREFIX}:lead-visits`,
 }
 
 export function readStorage(key, fallbackValue) {

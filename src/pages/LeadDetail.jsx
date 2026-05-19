@@ -29,9 +29,32 @@ function formatDateTime(value) {
   }).format(new Date(value))
 }
 
-export function LeadDetail({ activeProfile, lead, onBack, onSaveLead }) {
+const initialNoteForm = {
+  nota: '',
+}
+
+const initialVisitForm = {
+  propiedad: '',
+  fecha_visita: '',
+  resultado: '',
+  observaciones: '',
+}
+
+export function LeadDetail({
+  activeProfile,
+  lead,
+  leadNotes,
+  leadVisits,
+  onAddNote,
+  onAddVisit,
+  onBack,
+  onSaveLead,
+}) {
   const [form, setForm] = useState(() => toForm(lead))
+  const [noteForm, setNoteForm] = useState(initialNoteForm)
+  const [visitForm, setVisitForm] = useState(initialVisitForm)
   const [savedMessage, setSavedMessage] = useState('')
+  const [activityMessage, setActivityMessage] = useState('')
   const isAdmin = activeProfile.rol === 'admin'
 
   const detailItems = useMemo(
@@ -61,10 +84,52 @@ export function LeadDetail({ activeProfile, lead, onBack, onSaveLead }) {
     }))
   }
 
+  function updateNoteField(event) {
+    const { name, value } = event.target
+    setNoteForm((currentForm) => ({
+      ...currentForm,
+      [name]: value,
+    }))
+  }
+
+  function updateVisitField(event) {
+    const { name, value } = event.target
+    setVisitForm((currentForm) => ({
+      ...currentForm,
+      [name]: value,
+    }))
+  }
+
   function handleSubmit(event) {
     event.preventDefault()
     onSaveLead(lead.id, form)
     setSavedMessage('Cambios guardados en esta sesión local.')
+  }
+
+  function handleNoteSubmit(event) {
+    event.preventDefault()
+    const wasCreated = onAddNote(noteForm)
+
+    if (!wasCreated) {
+      setActivityMessage('No tenés permiso para agregar esta nota.')
+      return
+    }
+
+    setNoteForm(initialNoteForm)
+    setActivityMessage('Nota agregada al historial.')
+  }
+
+  function handleVisitSubmit(event) {
+    event.preventDefault()
+    const wasCreated = onAddVisit(visitForm)
+
+    if (!wasCreated) {
+      setActivityMessage('No tenés permiso para registrar esta visita.')
+      return
+    }
+
+    setVisitForm(initialVisitForm)
+    setActivityMessage('Visita registrada en el historial.')
   }
 
   return (
@@ -252,6 +317,136 @@ export function LeadDetail({ activeProfile, lead, onBack, onSaveLead }) {
           </div>
         </form>
       </section>
+
+      <section className="activity-grid" aria-label="Seguimiento del lead">
+        <div className="activity-panel">
+          <div className="panel-header">
+            <div>
+              <h2>Notas</h2>
+              <p>Historial de seguimiento cargado por el equipo.</p>
+            </div>
+          </div>
+
+          <form className="activity-form" onSubmit={handleNoteSubmit}>
+            <label>
+              Nueva nota
+              <textarea
+                name="nota"
+                onChange={updateNoteField}
+                required
+                rows="4"
+                value={noteForm.nota}
+              />
+            </label>
+            <button className="primary-button" type="submit">
+              Agregar nota
+            </button>
+          </form>
+
+          <div className="activity-list">
+            {leadNotes.length === 0 ? (
+              <p className="empty-state">Todavía no hay notas para este lead.</p>
+            ) : (
+              leadNotes.map((note) => (
+                <article className="activity-item" key={note.id}>
+                  <p>{note.nota}</p>
+                  <footer>
+                    <span>{agentNames.get(note.agente_id) ?? 'Admin'}</span>
+                    <time dateTime={note.created_at}>
+                      {formatDateTime(note.created_at)}
+                    </time>
+                  </footer>
+                </article>
+              ))
+            )}
+          </div>
+        </div>
+
+        <div className="activity-panel">
+          <div className="panel-header">
+            <div>
+              <h2>Visitas</h2>
+              <p>Registro de visitas realizadas o coordinadas.</p>
+            </div>
+          </div>
+
+          <form className="activity-form" onSubmit={handleVisitSubmit}>
+            <label>
+              Propiedad
+              <input
+                name="propiedad"
+                onChange={updateVisitField}
+                required
+                type="text"
+                value={visitForm.propiedad}
+              />
+            </label>
+
+            <label>
+              Fecha de visita
+              <input
+                name="fecha_visita"
+                onChange={updateVisitField}
+                required
+                type="date"
+                value={visitForm.fecha_visita}
+              />
+            </label>
+
+            <label>
+              Resultado
+              <input
+                name="resultado"
+                onChange={updateVisitField}
+                required
+                type="text"
+                value={visitForm.resultado}
+              />
+            </label>
+
+            <label>
+              Observaciones
+              <textarea
+                name="observaciones"
+                onChange={updateVisitField}
+                required
+                rows="3"
+                value={visitForm.observaciones}
+              />
+            </label>
+
+            <button className="primary-button" type="submit">
+              Registrar visita
+            </button>
+          </form>
+
+          <div className="activity-list">
+            {leadVisits.length === 0 ? (
+              <p className="empty-state">Todavía no hay visitas para este lead.</p>
+            ) : (
+              leadVisits.map((visit) => (
+                <article className="activity-item" key={visit.id}>
+                  <div className="activity-item-header">
+                    <strong>{visit.propiedad}</strong>
+                    <span>{visit.resultado}</span>
+                  </div>
+                  <p>{visit.observaciones}</p>
+                  <footer>
+                    <span>{agentNames.get(visit.agente_id) ?? 'Admin'}</span>
+                    <time dateTime={visit.fecha_visita}>{visit.fecha_visita}</time>
+                  </footer>
+                </article>
+              ))
+            )}
+          </div>
+        </div>
+      </section>
+
+      {activityMessage ? (
+        <p className="activity-message" role="status">
+          {activityMessage}
+        </p>
+      ) : null}
     </main>
   )
 }

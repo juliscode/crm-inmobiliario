@@ -41,7 +41,8 @@ button {
 
 button:focus-visible,
 input:focus-visible,
-select:focus-visible {
+select:focus-visible,
+textarea:focus-visible {
   outline: 3px solid rgba(15, 118, 110, 0.28);
   outline-offset: 3px;
 }
@@ -78,7 +79,7 @@ dd {
   color: var(--accent);
   font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   margin-bottom: 12px;
   text-transform: uppercase;
 }
@@ -161,7 +162,7 @@ dd {
   display: inline-flex;
   font-size: 0.75rem;
   font-weight: 900;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   margin-bottom: 8px;
   padding: 6px 8px;
 }
@@ -448,7 +449,7 @@ select:disabled {
   color: var(--muted);
   font-size: 0.76rem;
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   margin-bottom: 4px;
   text-transform: uppercase;
 }
@@ -477,7 +478,7 @@ select:disabled {
 .lead-next-action strong {
   color: var(--muted);
   font-size: 0.76rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
@@ -566,7 +567,8 @@ select:disabled {
 
 .detail-hero,
 .detail-grid,
-.edit-panel {
+.edit-panel,
+.activity-panel {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -639,6 +641,99 @@ select:disabled {
   padding: 8px 12px;
 }
 
+.activity-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.activity-panel {
+  overflow: hidden;
+}
+
+.activity-form {
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.activity-form label {
+  color: var(--muted);
+  display: grid;
+  font-size: 0.82rem;
+  font-weight: 800;
+  gap: 8px;
+}
+
+textarea {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font: inherit;
+  line-height: 1.45;
+  min-height: 92px;
+  padding: 10px 11px;
+  resize: vertical;
+  width: 100%;
+}
+
+.activity-form button {
+  justify-self: end;
+}
+
+.activity-list {
+  display: grid;
+}
+
+.activity-item {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.activity-item + .activity-item {
+  border-top: 1px solid var(--border);
+}
+
+.activity-item p {
+  line-height: 1.55;
+}
+
+.activity-item footer,
+.activity-item-header {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.activity-item footer {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 750;
+}
+
+.activity-item time,
+.activity-item-header span {
+  color: var(--accent-strong);
+  font-weight: 900;
+}
+
+.activity-item-header strong {
+  overflow-wrap: anywhere;
+}
+
+.activity-message {
+  background: var(--accent-soft);
+  border: 1px solid #bfebe2;
+  border-radius: var(--radius);
+  color: var(--accent-strong);
+  font-weight: 900;
+  padding: 14px 16px;
+}
+
 @media (max-width: 760px) {
   .profile-card,
   .dashboard-hero,
@@ -649,6 +744,7 @@ select:disabled {
   .profile-options,
   .dashboard-hero,
   .detail-grid,
+  .activity-grid,
   .summary-grid,
   .filters-panel,
   .lead-meta,
@@ -681,6 +777,10 @@ select:disabled {
   .toolbar button,
   .modal-actions button {
     width: 100%;
+  }
+
+  .activity-form button {
+    justify-self: stretch;
   }
 
   .lead-next-action time {

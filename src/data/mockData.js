@@ -106,3 +106,50 @@ export const initialLeads = [
     updated_at: '2026-05-16T11:15:00.000Z',
   },
 ]
+
+export const initialLeadNotes = [
+  {
+    id: 'note-1',
+    lead_id: 'lead-1',
+    agente_id: 'agent-1',
+    nota: 'Primer contacto realizado. Busca casa con patio y disponibilidad para visitar esta semana.',
+    created_at: '2026-05-15T13:20:00.000Z',
+  },
+  {
+    id: 'note-2',
+    lead_id: 'lead-2',
+    agente_id: 'agent-2',
+    nota: 'Prefiere alquiler cerca del trabajo. Enviar alternativas con cochera.',
+    created_at: '2026-05-16T10:15:00.000Z',
+  },
+  {
+    id: 'note-3',
+    lead_id: 'lead-3',
+    agente_id: 'agent-1',
+    nota: 'Quiere avanzar con tasación antes de publicar la propiedad familiar.',
+    created_at: '2026-05-17T09:40:00.000Z',
+  },
+]
+
+export const initialLeadVisits = [
+  {
+    id: 'visit-1',
+    lead_id: 'lead-1',
+    agente_id: 'agent-1',
+    propiedad: 'Casa 3 dormitorios en Yerba Buena',
+    fecha_visita: '2026-05-18',
+    resultado: 'Interesado',
+    observaciones: 'Le gustó la ubicación. Pidió coordinar segunda visita con su pareja.',
+    created_at: '2026-05-18T18:00:00.000Z',
+  },
+  {
+    id: 'visit-2',
+    lead_id: 'lead-4',
+    agente_id: 'agent-2',
+    propiedad: 'PH reciclado con patio',
+    fecha_visita: '2026-05-19',
+    resultado: 'Visita coordinada',
+    observaciones: 'Confirmar asistencia por la mañana.',
+    created_at: '2026-05-17T15:30:00.000Z',
+  },
+]

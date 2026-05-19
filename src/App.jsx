@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 import { AppLayout } from './components/AppLayout.jsx'
 import { ProfileSelector } from './components/ProfileSelector.jsx'
 import { useDemoSession } from './hooks/useDemoSession.js'
+import { useLeadActivity } from './hooks/useLeadActivity.js'
 import { useLeads } from './hooks/useLeads.js'
 import { Dashboard } from './pages/Dashboard.jsx'
 import { LeadDetail } from './pages/LeadDetail.jsx'
@@ -25,6 +26,11 @@ function App() {
     () => visibleLeads.find((lead) => lead.id === selectedLeadId) ?? null,
     [selectedLeadId, visibleLeads],
   )
+  const { leadNotes, leadVisits, addNote, addVisit } = useLeadActivity(
+    activeProfile,
+    leads,
+    selectedLeadId,
+  )
 
   if (!activeProfile) {
     return <ProfileSelector profiles={profiles} onSelectProfile={selectProfile} />
@@ -42,6 +48,10 @@ function App() {
         <LeadDetail
           activeProfile={activeProfile}
           lead={selectedLead}
+          leadNotes={leadNotes}
+          leadVisits={leadVisits}
+          onAddNote={addNote}
+          onAddVisit={addVisit}
           onBack={() => setSelectedLeadId(null)}
           onSaveLead={saveLead}
         />
